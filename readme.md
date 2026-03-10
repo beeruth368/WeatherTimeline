@@ -1,31 +1,23 @@
-# Weather Timeline - High Density Personal Weather Dashboard
+# Weather Timeline
 
-A modern Android weather application built with Jetpack Compose that combines general meteorological data with local Personal Weather Station (PWS) hardware. Inspired by the legendary Weather Timeline aesthetic.
+A hyper-local, Jetpack Compose weather application designed for real-time accuracy. It merges global weather models with hyper-local Personal Weather Station (PWS) data to create a seamless, expandable 10-day forecast.
 
 ## Features
-
-- **Multi-Source Data:** Pulls from OpenWeatherMap (Current), Open-Meteo (10-Day Forecast), and Ecowitt.net (Personal Hardware).
-- **High-Density Timeline:** Detailed daily cards showing Max Wind, Gusts, and Precipitation Probability.
-- **Dynamic Unit Switching:** Users can toggle between Metric (Celsius/kmh/mm) and Imperial (Fahrenheit/mph/in) globally.
-- **Expandable Hourly View:** Tap any day to see a 24-hour granular breakdown of temperature and rain/snow accumulation.
-- **Security First:** Utilizes `local.properties` and `BuildConfig` to keep API keys private, and Android DataStore to store user-specific hardware keys securely on-device.
+* **Hyper-Local PWS Integration:** Connects directly to Ecowitt personal weather stations via the v3 API (`device/list` -> `real_time` handshake) for backyard-accurate temperature, humidity, wind, and solar radiation.
+* **Sun Intensity Meter:** A dynamic visual progress bar mapping solar radiation ($W/m^2$).
+* **Expandable 10-Day Timeline:** High-contrast daily cards that expand to reveal a horizontal scroll of hourly temperature and precipitation breakdowns.
+* **Smart Location Handling:** Utilizes Google's `FusedLocationClient` for GPS, with a built-in Open-Meteo Geocoding fallback. Users can manually search and save specific cities via a debounced autocomplete dropdown.
+* **Midnight Blue UI:** A fully custom, edge-to-edge Jetpack Compose interface with system bar padding and seamless Pull-to-Refresh coordination.
 
 ## Tech Stack
+* **UI:** Kotlin, Jetpack Compose, Material 3
+* **Networking:** Retrofit, Gson, Kotlin Coroutines
+* **Location:** Google Play Services Location, Geocoding API
+* **Local Storage:** Android SharedPreferences
 
-- **UI:** Jetpack Compose (Material 3)
-- **Networking:** Retrofit & Gson
-- **Concurrency:** Kotlin Coroutines & Flow
-- **Persistence:** Android DataStore Preferences
-- **Images:** Coil (Asynchronous Image Loading)
-- **Location:** Google Play Services Fused Location Provider
-
-## Getting Started
-
-1. **Obtain API Keys:**
-    - [OpenWeatherMap API Key](https://openweathermap.org/api)
-    - [Ecowitt API & Application Keys](https://www.ecowitt.net/user/api)
-
-2. **Configure Security:**
-   Add the following to your `local.properties` file:
-   ```properties
-   WEATHER_API_KEY=your_key_here
+## API Requirements
+To run this application fully, you will need to add your keys to the in-app Settings menu:
+1. **OpenWeatherMap API:** Powers the current conditions card.
+2. **Ecowitt API & App Keys:** Powers the Backyard Station card.
+3. **WeatherAPI.com:** Powers the live alert banner.
+4. *Open-Meteo API:* Used for 10-Day forecasting and Geocoding (Free, no key required).
